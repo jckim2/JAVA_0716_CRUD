@@ -56,8 +56,8 @@ public class 게시판 {
 		}
 
 		sc.close();
-
-		System.out.println("프로그램 끝");
+		
+		System.out.println("프로그램을 끝내겠습니다");
 
 	}
 }
