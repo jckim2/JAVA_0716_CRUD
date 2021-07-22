@@ -1,8 +1,10 @@
-package com.sbs.java.crud;
+package com.sbs.java.crud.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import com.sbs.java.crud.App;
+import com.sbs.java.crud.dto.Article;
 
 //현재 시간 리턴
 public class Util {
@@ -27,7 +29,7 @@ public class Util {
 		for (int i = 0; i < 3; i++) {
 			String time = getNowDateStr();
 			Article.idCount++;
-			Main.guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
+			App.guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
 		}
 
 	}
