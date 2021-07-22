@@ -29,8 +29,41 @@ public class Util {
 		for (int i = 0; i < 3; i++) {
 			String time = getNowDateStr();
 			Article.idCount++;
-			App.guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
+			App.guest.add(
+					new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
 		}
 
+	}
+
+
+
+	public static boolean foundData(String command) {
+		// equals 대신 startsWith도 있다 그 문장으로 시작하는 문장일때 라는 소리
+		// System.out.printf("게시물 번호를 입력해주세요:");
+		// int num = sc.nextInt();
+		boolean found = false;
+		Article foundArticle = null;
+		String commandSplit[] = command.split(" ");
+		int num;
+		if (commandSplit.length > 2) {
+			num = Integer.parseInt(commandSplit[2]); // 인트형으로 변환
+
+			for (int i = 0; i < App.guest.size(); i++) {
+				Article a = App.guest.get(i);
+
+				if (a.id == num) {
+					found = true;
+					foundArticle = a;
+					visitRecord(foundArticle);
+					break;
+				}
+			}
+			App.foundArticle = foundArticle;
+			
+			
+		} else {
+			System.out.printf("동일한 넘버의 ");
+		}
+		return found;
 	}
 }
