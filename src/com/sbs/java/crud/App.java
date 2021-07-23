@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sbs.java.crud.dto.Article;
+import com.sbs.java.crud.dto.member;
 import com.sbs.java.crud.util.Util;
 
 public class App {// main일때는 static이였기 때문에 static과 관련된 것들은 static선언 이였지만 app으로 온뒤로는 static을 삭제
 	public static Article foundArticle = null;
 	public static ArrayList<Article> guest = new ArrayList<>(); // 메서드 밖으로 빼줘서 다른 메서드들도 접근 가능
+	public static ArrayList<member> members = new ArrayList<>();
 
 	public void start() {
 		System.out.println("==프로그램 시작==");
@@ -30,6 +32,33 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 
 			else if (command.length() == 0) {
 				continue;
+			} else if (command.equals("member join")) {
+				int id = members.size() + 1;
+				System.out.printf("로그인 아이디:");
+				String loginId = sc.nextLine();
+
+				String loginPw = null;
+				String loginPwConfirm = null;
+
+				while (true) {
+					System.out.printf("로그인 비밀번호:");
+					loginPw = sc.nextLine();
+					System.out.println("비밀번호 확인:");
+					loginPwConfirm = sc.nextLine();
+
+					if (loginPw.equals(loginPwConfirm)) {
+						break;
+					} else {
+						System.out.printf("비밀번호를 다시 입력해주세요");
+					}
+				}
+				System.out.printf("이름:");
+				String name = sc.nextLine();
+
+				String time = Util.getNowDateStr();
+
+				members.add(new member(id, time, loginId, loginPw, name));
+				System.out.printf("%d번 회원이 생성 되었습니다\n",id);
 			} else if (command.equals("article write")) {
 
 				Article.idCount++;
