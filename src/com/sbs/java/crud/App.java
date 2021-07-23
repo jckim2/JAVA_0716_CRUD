@@ -49,12 +49,29 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 				System.out.printf("현재 id수:%d\n", Article.idCount);
 				continue;
 
-			} else if (command.equals("article list")) {
+			} else if (command.startsWith("article list")) {
+				String searchKeyword = command.substring("article list".length()).trim();
+				ArrayList<Article> forListArticle = null;
+
+				if (searchKeyword.length() > 0) {
+					forListArticle = new ArrayList<>();
+
+					for (Article articles : guest) {
+						if (articles.title.contains(searchKeyword)) {
+							forListArticle.add(articles);
+						}
+					}
+
+					if (forListArticle.size() <= 0) {
+						System.out.println("검색결과가 존재하지 않습니다");
+						continue;
+					}
+				}
 
 				if (guest.size() == 0) {
 					System.out.println("게시물이 없습니다");
 				} else {
-					for (Article a : guest) {
+					for (Article a : forListArticle) {
 
 						System.out.printf("%d번째 회원\n제목:%s\n조회수:%d\n", a.id, a.title, a.visit);
 
