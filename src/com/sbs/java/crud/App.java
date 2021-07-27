@@ -20,9 +20,10 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 		Util.makeTestData();
 
 		while (true) {
+
 			System.out.printf("명령어 입력:");
 			String command = sc.nextLine().trim();
-
+			
 			// trim()은 쓸데없는 공백을 없애줌
 			// sc.next()는 공백전까지
 			// sc.nextInt()는 정수
@@ -33,9 +34,23 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 			else if (command.length() == 0) {
 				continue;
 			} else if (command.equals("member join")) {
+				String loginId = null;
 				int id = members.size() + 1;
-				System.out.printf("로그인 아이디:");
-				String loginId = sc.nextLine();
+				while (true) {
+					System.out.printf("로그인 아이디:");
+					loginId = sc.nextLine();
+					boolean testId = true;
+					for (member test : members) {
+						if (loginId.equals(test.loginId)) {
+							System.out.println("이미 아이디가 있습니다 다시 입력해주세요");
+							testId = false;
+							break;
+						}
+					}
+					if (testId) {
+						break;
+					}
+				}
 
 				String loginPw = null;
 				String loginPwConfirm = null;
@@ -58,8 +73,37 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 				String time = Util.getNowDateStr();
 
 				members.add(new member(id, time, loginId, loginPw, name));
-				System.out.printf("%d번 회원이 생성 되었습니다\n",id);
-			} else if (command.equals("article write")) {
+				System.out.printf("%d번 회원이 생성 되었습니다\n", id);
+			}
+			int presentId = 0;
+			if (presentId == 0) {
+				int id = 0, pw = 0;
+				String loginId;
+				String loginPw;
+				System.out.printf("아이디:");
+				loginId = sc.nextLine();
+				System.out.printf("비밀번호:");
+				loginPw = sc.nextLine();
+				for (member findIndex : members) {
+					if (findIndex.loginId.equals(loginId)) {
+						id = findIndex.id;
+					}
+					if (findIndex.loginPw.equals(loginPw)) {
+						pw = findIndex.id;
+					}
+				}
+				if (id == pw && id != 0 && pw != 0) {
+					presentId = id;
+					System.out.println("로그인 성공");
+				} else if (id == 0 || pw == 0) {
+					System.out.println("아이디 또는 비밀번호를 잘못 입력하셨습니다");
+					continue;
+				} else {
+					System.out.println("잘못된 입력입니다");
+					continue;
+				}
+
+			}else if (command.equals("article write")) {
 
 				Article.idCount++;
 				String title;
