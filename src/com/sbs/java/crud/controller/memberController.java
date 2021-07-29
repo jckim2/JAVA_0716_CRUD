@@ -8,8 +8,8 @@ import com.sbs.java.crud.dto.member;
 import com.sbs.java.crud.util.Util;
 
 public class memberController extends Controller {
-	private Scanner sc;
-	private ArrayList<member> members;
+	private Scanner sc = new Scanner(System.in);
+	public static ArrayList<member> members = new ArrayList<>();
 	private String command;
 
 	public void doAction(String command, String actionWord) {
@@ -20,11 +20,6 @@ public class memberController extends Controller {
 			break;
 		}
 
-	}
-
-	public memberController(Scanner sc, ArrayList<member> member) {
-		this.sc = sc;
-		this.members = member;
 	}
 
 	public void dojoin() {
@@ -70,4 +65,38 @@ public class memberController extends Controller {
 		System.out.printf("%d번 회원이 생성 되었습니다\n", id);
 	}
 
+	public void login() {
+		while (true) {
+			int presentId = 0;
+			if (presentId == 0) {
+				int id = 0, pw = 0;
+				String loginId;
+				String loginPw;
+				System.out.printf("아이디:");
+				loginId = sc.nextLine();
+				System.out.printf("비밀번호:");
+				loginPw = sc.nextLine();
+				for (member findIndex : members) {
+					if (findIndex.loginId.equals(loginId)) {
+						id = findIndex.id;
+					}
+					if (findIndex.loginPw.equals(loginPw)) {
+						pw = findIndex.id;
+					}
+				}
+				if (id == pw && id != 0 && pw != 0) {
+					presentId = id;
+					System.out.println("로그인 성공");
+					break;
+				} else if (id == 0 || pw == 0) {
+					System.out.println("아이디 또는 비밀번호를 잘못 입력하셨습니다");
+					continue;
+				} else {
+					System.out.println("잘못된 입력입니다");
+					continue;
+				}
+
+			}
+		}
+	}
 }
