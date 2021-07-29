@@ -18,7 +18,7 @@ public class memberController {
 
 	public void dojoin() {
 		String loginId = null;
-		int id = App.members.size() + 1;
+		int id = members.size() + 1;
 		while (true) {
 			System.out.printf("로그인 아이디:");
 			loginId = sc.nextLine();
