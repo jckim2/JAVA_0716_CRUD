@@ -7,9 +7,20 @@ import com.sbs.java.crud.App;
 import com.sbs.java.crud.dto.member;
 import com.sbs.java.crud.util.Util;
 
-public class memberController {
+public class memberController extends Controller {
 	private Scanner sc;
 	private ArrayList<member> members;
+	private String command;
+
+	public void doAction(String command, String actionWord) {
+		this.command = command;
+		switch (actionWord) {
+		case "join":
+			dojoin();
+			break;
+		}
+
+	}
 
 	public memberController(Scanner sc, ArrayList<member> member) {
 		this.sc = sc;

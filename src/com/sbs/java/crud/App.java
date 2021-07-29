@@ -3,6 +3,7 @@ package com.sbs.java.crud;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import com.sbs.java.crud.controller.Controller;
 import com.sbs.java.crud.controller.articleController;
 import com.sbs.java.crud.controller.memberController;
 import com.sbs.java.crud.dto.Article;
@@ -35,32 +36,27 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 			if (command.equals("system exit")) {// command=="system exit"
 				break;
 			}
+			String commandSplit[] = command.split(" ");
 
-			else if (command.length() == 0) {
-				continue;
-			} else if (command.equals("member join")) {
-				memberController.dojoin();
-			} else if (command.equals("article write")) {
+			String controllerName = commandSplit[0];
+			String actionWord = commandSplit[1];
 
-				articleController.dowrite();
-			} else if (command.startsWith("article list")) {
-				articleController.doList(command);
-			} else if (command.startsWith("article detail")) {
-				articleController.doDetail(command);
-
-			} else if (command.startsWith("article delete")) {
-				articleController.doDelete(command);
-
-			} else if (command.startsWith("article modify")) {
-				articleController.doModify(command);
-
-			} else {
-				System.out.printf("%s는 존재하지 않는 명령어입니다\n", command);
-
+			Controller controller = null;
+			if (commandSplit.length == 1) {
+				System.out.println("잘못된 입력입니다");
 			}
 
-		}
+			if (controllerName.equals("article")) {
+				controller = articleController;
+			} else if (controllerName.equals("member")) {
+				controller = memberController;
+			} else {
+				System.out.println("존재하지 않는 명령어 입니다");
+				continue;
+			}
 
+			controller.doAction(command, actionWord);
+		}
 		sc.close();
 
 		System.out.println("프로그램을 끝내겠습니다");

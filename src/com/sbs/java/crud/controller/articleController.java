@@ -7,9 +7,33 @@ import com.sbs.java.crud.App;
 import com.sbs.java.crud.dto.Article;
 import com.sbs.java.crud.util.Util;
 
-public class articleController {
+public class articleController extends Controller {
 
 	Scanner sc = new Scanner(System.in);
+	private String command;
+
+	@Override
+	public void doAction(String command, String actionWord) {
+		this.command = command;
+		switch (actionWord) {
+		case "write":
+			dowrite();
+			break;
+		case "list":
+			doList();
+			break;
+		case "detail":
+
+			doDetail();
+			break;
+		case "delete":
+			doDelete();
+			break;
+		case "modify":
+			doModify();
+			break;
+		}
+	}
 
 	public void dowrite() {
 		Article.idCount++;
@@ -30,38 +54,43 @@ public class articleController {
 
 	}
 
-	public void doList(String command) {
-		String searchKeyword = command.substring("article list".length()).trim();
-		ArrayList<Article> forListArticle = null;
+	public void doList() {
+		String[] commandSplit = command.split(" ");
+		if (commandSplit.length == 3) {
 
-		if (searchKeyword.length() > 0) {
-			forListArticle = new ArrayList<>();
+			String searchKeyword = command.substring("article list".length()).trim();
+			ArrayList<Article> forListArticle = null;
 
-			for (Article articles : App.guest) {
-				if (articles.title.contains(searchKeyword)) {
-					forListArticle.add(articles);
+			if (searchKeyword.length() > 0) {
+				forListArticle = new ArrayList<>();
+
+				for (Article articles : App.guest) {
+					if (articles.title.contains(searchKeyword)) {
+						forListArticle.add(articles);
+					}
+				}
+
+				if (forListArticle.size() <= 0) {
+					System.out.println("검색결과가 존재하지 않습니다");
+					return;
 				}
 			}
 
-			if (forListArticle.size() <= 0) {
-				System.out.println("검색결과가 존재하지 않습니다");
-				return;
+			if (App.guest.size() == 0) {
+				System.out.println("게시물이 없습니다");
+			} else {
+				for (Article a : forListArticle) {
+
+					System.out.printf("%d번째 회원\n제목:%s\n조회수:%d\n", a.id, a.title, a.visit);
+
+				}
 			}
+		}else {
+			return;
 		}
-
-		if (App.guest.size() == 0) {
-			System.out.println("게시물이 없습니다");
-		} else {
-			for (Article a : forListArticle) {
-
-				System.out.printf("%d번째 회원\n제목:%s\n조회수:%d\n", a.id, a.title, a.visit);
-
-			}
-		}
-		
 	}
 
-	public void doDetail(String command) {
+	public void doDetail() {
 		boolean found = Util.foundData(command);
 		if (found) {
 			System.out.printf("번호:%d\n날짜:%s\n", App.foundArticle.id, App.foundArticle.time);
@@ -71,10 +100,10 @@ public class articleController {
 
 			System.out.println("게시물이 없습니다");
 		}
-		
+
 	}
 
-	public void doDelete(String command) {
+	public void doDelete() {
 //		System.out.printf("게시물 번호를 입력해주세요:");
 //		int num = sc.nextInt();
 //		boolean found = false;
@@ -94,10 +123,10 @@ public class articleController {
 		} else if (found) {
 			System.out.printf("%d번 게시물은 존재하지 않습니다\n", App.foundArticle.id);
 		}
-		
+
 	}
 
-	public void doModify(String command) {
+	public void doModify() {
 		boolean found = Util.foundData(command);
 
 		if (found) {
@@ -111,7 +140,7 @@ public class articleController {
 		} else {
 			System.out.println("게시물이 없습니다");
 		}
-		
+
 	}
 
 }
