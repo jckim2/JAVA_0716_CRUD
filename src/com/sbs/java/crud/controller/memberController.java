@@ -8,6 +8,8 @@ import com.sbs.java.crud.dto.member;
 import com.sbs.java.crud.util.Util;
 
 public class memberController extends Controller {
+	int numId = 0, numPw = 0;
+	int presentId = 0;
 	private Scanner sc = new Scanner(System.in);
 	public static ArrayList<member> members = new ArrayList<>();
 	private String command;
@@ -18,11 +20,21 @@ public class memberController extends Controller {
 		case "join":
 			dojoin();
 			break;
+		case "login":
+			doLogin();
+			break;
+		case "whoami":
+			showWhoami();
+			break;
+		case "logout":
+			doLogout();
+			break;
+		
 		}
 
 	}
 
-	public void dojoin() {
+	private void dojoin() {
 		String loginId = null;
 		int id = members.size() + 1;
 		while (true) {
@@ -53,7 +65,7 @@ public class memberController extends Controller {
 			if (loginPw.equals(loginPwConfirm)) {
 				break;
 			} else {
-				System.out.printf("비밀번호를 다시 입력해주세요");
+				System.out.println("비밀번호를 다시 입력해주세요");
 			}
 		}
 		System.out.printf("이름:");
@@ -65,38 +77,68 @@ public class memberController extends Controller {
 		System.out.printf("%d번 회원이 생성 되었습니다\n", id);
 	}
 
-	public void login() {
-		while (true) {
-			int presentId = 0;
-			if (presentId == 0) {
-				int id = 0, pw = 0;
-				String loginId;
-				String loginPw;
-				System.out.printf("아이디:");
-				loginId = sc.nextLine();
-				System.out.printf("비밀번호:");
-				loginPw = sc.nextLine();
-				for (member findIndex : members) {
-					if (findIndex.loginId.equals(loginId)) {
-						id = findIndex.id;
-					}
-					if (findIndex.loginPw.equals(loginPw)) {
-						pw = findIndex.id;
-					}
-				}
-				if (id == pw && id != 0 && pw != 0) {
-					presentId = id;
-					System.out.println("로그인 성공");
-					break;
-				} else if (id == 0 || pw == 0) {
-					System.out.println("아이디 또는 비밀번호를 잘못 입력하셨습니다");
-					continue;
-				} else {
-					System.out.println("잘못된 입력입니다");
-					continue;
-				}
+	private void doLogin() {
 
+		while (true) {
+
+			numId = 0;
+			numPw = 0;
+			String loginId, loginPw;
+
+			System.out.printf("아이디:");
+			loginId = sc.nextLine();
+			System.out.printf("비밀번호:");
+			loginPw = sc.nextLine();
+			for (member findIndex : members) {
+				if (findIndex.loginId.equals(loginId)) {
+					numId = findIndex.numId;
+				}
+				if (findIndex.loginPw.equals(loginPw))
+					numPw = findIndex.numId;
+			}
+
+			if (numId == numPw && numId != 0 && numPw != 0) {
+				presentId = numId;
+				member findMember = findMembers(presentId);
+				System.out.printf("%s님 환영합니다\n", findMember.name);
+				break;
+			} else if (numId == 0 || numPw == 0) {
+				System.out.println("아이디 또는 비밀번호를 잘못 입력하셨습니다");
+				continue;
+			} else {
+				System.out.println("잘못된 입력입니다");
+				continue;
+			}
+
+		}
+	}
+
+	private void doLogout() {
+		if (presentId != 0) {
+			presentId = 0;
+			System.out.println("로그아웃 되었습니다");
+		}else if(presentId ==0) {
+			System.out.println("현재 가입된 계정이 없거나 로그아웃한 상태입니다");
+		}
+	}
+
+	private void showWhoami() {
+		member findMember = findMembers(presentId);
+
+		if (findMember == null) {
+			System.out.println("현재 가입된 계정이 없거나 로그아웃한 상태입니다");
+		} else {
+			System.out.printf("로그인 ID:%s\n이름:%s\n", findMember.loginId, findMember.name);
+		}
+	}
+
+	private member findMembers(int presentId) {
+		member findMember = null;
+		for (member findId : members) {
+			if (findId.numId == presentId) {
+				findMember = findId;
 			}
 		}
+		return findMember;
 	}
 }

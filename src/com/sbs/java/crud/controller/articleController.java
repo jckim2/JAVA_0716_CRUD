@@ -35,7 +35,7 @@ public class articleController extends Controller {
 		}
 	}
 
-	public void dowrite() {
+	private void dowrite() {
 		Article.idCount++;
 		String title;
 		String body;
@@ -54,7 +54,7 @@ public class articleController extends Controller {
 
 	}
 
-	public void doList() {
+	private void doList() {
 		String[] commandSplit = command.split(" ");
 		if (commandSplit.length == 3) {
 
@@ -90,7 +90,7 @@ public class articleController extends Controller {
 		}
 	}
 
-	public void doDetail() {
+	private void doDetail() {
 		boolean found = foundData(command);
 		if (found) {
 			System.out.printf("번호:%d\n날짜:%s\n", foundArticle.id, foundArticle.time);
@@ -103,7 +103,7 @@ public class articleController extends Controller {
 
 	}
 
-	public void doDelete() {
+	private void doDelete() {
 //		System.out.printf("게시물 번호를 입력해주세요:");
 //		int num = sc.nextInt();
 //		boolean found = false;
@@ -126,7 +126,7 @@ public class articleController extends Controller {
 
 	}
 
-	public void doModify() {
+	private void doModify() {
 		boolean found = foundData(command);
 
 		if (found) {
@@ -143,7 +143,7 @@ public class articleController extends Controller {
 
 	}
 
-	public static boolean foundData(String command) {
+	private boolean foundData(String command) {
 		// equals 대신 startsWith도 있다 그 문장으로 시작하는 문장일때 라는 소리
 		// System.out.printf("게시물 번호를 입력해주세요:");
 		// int num = sc.nextInt();
@@ -172,12 +172,12 @@ public class articleController extends Controller {
 		return found;
 	}
 
-	public static void visitRecord(Article a) {
+	public void visitRecord(Article a) {
 		a.visit++;
 
 	}
 
-	public static void makeTestData() {
+	public void makeTestData() {
 		System.out.println("테스트를 위한 데이터를 3개 생성합니다");
 		String testTitle = "테스트용 제목";
 		String testBody = "테스트용 내용";
