@@ -185,8 +185,7 @@ public class articleController extends Controller {
 		for (int i = 0; i < 3; i++) {
 			String time = Util.getNowDateStr();
 			Article.idCount++;
-			articleController.guest.add(
-					new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
+			guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
 		}
 
 	}

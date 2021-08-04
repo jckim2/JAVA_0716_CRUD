@@ -17,6 +17,7 @@ public class App {// main일때는 static이였기 때문에 static과 관련된
 		System.out.println("==프로그램 시작==");
 
 		articleController.makeTestData();
+		memberController.makeTestMember();
 
 		while (true) {
 
