@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sbs.java.crud.dto.Article;
+import com.sbs.java.crud.dto.member;
 import com.sbs.java.crud.util.Util;
 
 public class articleController extends Controller {
@@ -14,6 +15,10 @@ public class articleController extends Controller {
 
 	@Override
 	public void doAction(String command, String actionWord) {
+		if (memberController.presentId == 0) {
+			System.out.println("로그인을 해주세요");
+			return;
+		}
 		this.command = command;
 		switch (actionWord) {
 		case "write":
@@ -39,6 +44,7 @@ public class articleController extends Controller {
 		Article.idCount++;
 		String title;
 		String body;
+		member writeMember = memberController.presentMember;
 		String timep = Util.getNowDateStr();// Util도 똑같은 Class이다 util안에 메서드는
 		// static선언 되었기에 객체없이 바로 사용가능
 
@@ -46,10 +52,12 @@ public class articleController extends Controller {
 		title = sc.nextLine().trim();
 		System.out.printf("내용입력: ");
 		body = sc.nextLine().trim();
-		guest.add(new Article(Article.idCount, Article.visitCount, body, title, timep));
+
+		guest.add(new Article(Article.idCount, Article.visitCount, body, title, timep, writeMember));
 
 		System.out.printf("제목:%s\n", title);
 		System.out.printf("내용:%s\n", body);
+		System.out.printf("작성자:%s\n", memberController.presentMember.loginId);
 		System.out.printf("현재 id수:%d\n", Article.idCount);
 
 	}
@@ -185,7 +193,8 @@ public class articleController extends Controller {
 		for (int i = 0; i < 3; i++) {
 			String time = Util.getNowDateStr();
 			Article.idCount++;
-			guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time));
+			guest.add(new Article(Article.idCount, Article.visitCount, testBody + (i + 1), testTitle + (i + 1), time,
+					null));
 		}
 
 	}

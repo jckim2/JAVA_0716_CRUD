@@ -9,10 +9,11 @@ import com.sbs.java.crud.util.Util;
 
 public class memberController extends Controller {
 	int numId = 0, numPw = 0;
-	int presentId = 0;
+	public static int presentId = 0;
 	private Scanner sc = new Scanner(System.in);
 	public static ArrayList<member> members = new ArrayList<>();
 	private String command;
+	public static member presentMember = null;
 
 	public void doAction(String command, String actionWord) {
 		this.command = command;
@@ -112,6 +113,7 @@ public class memberController extends Controller {
 					presentId = numId;
 					member findMember = findMembers(presentId);
 					System.out.printf("%s님 환영합니다\n", findMember.name);
+					presentMember = findMember;
 					break;
 				} else if (numId == 0 || numPw == 0) {
 					System.out.println("아이디 또는 비밀번호를 잘못 입력하셨습니다");
@@ -121,7 +123,7 @@ public class memberController extends Controller {
 					continue;
 				}
 			}
-		}else if(presentId!=0) {
+		} else if (presentId != 0) {
 			System.out.println("로그아웃을 해주세요");
 		}
 	}
@@ -129,10 +131,12 @@ public class memberController extends Controller {
 	private void doLogout() {
 		if (presentId != 0) {
 			presentId = 0;
+			presentMember = null;
 			System.out.println("로그아웃 되었습니다");
 		} else if (presentId == 0) {
 			System.out.println("현재 가입된 계정이 없거나 로그아웃한 상태입니다");
 		}
+
 	}
 
 	private void showWhoami() {
